@@ -6,7 +6,7 @@ const readingList = [
     author: 'Author1',
     startDate: new Date('2022-02-01'),
     isDone: false,
-    endDate: null,
+    endDate: new Date(''),
     notes: ''
   },
   {
@@ -41,19 +41,24 @@ const CurrentlyReading = () => {
   const [curBook, setCurBook] = useState(readingList[0])
 
   const startDateStr = curBook.startDate.toISOString().split('T')[0]
-  const endDateStr = curBook.endDate ? curBook.endDate.toISOString().split('T')[0] : ''
+  let endDateStr = !isNaN(curBook.endDate) ? curBook.endDate.toISOString().split('T')[0] : ''
   const endDateHandler = (event) => {
     setCurBook({
       ...curBook, endDate: new Date(event.target.value)
     })
+    endDateStr = event.target.value
   }
 
+  // need to add textbox area, score, page length, submit button (need to learn how to use a form)
+  // then we're creating reading list right below it
+    // bottom of the list is add button
+    // based on whether curBook is empty, we must add a button next to each list element to update the current book
+  // then we're creating the books that we finished and a button to show all the extra details
   return (
     <div>
       <p>Currently Reading: {curBook.title} by {curBook.author}</p>
       <p>
-        {startDateStr} - 
-        {curBook.isDone ? <input type='date' value={endDateStr} onChange={endDateHandler} min={startDateStr} max={new Date().toISOString().split('T')[0]}/> : ''}
+        {startDateStr} - <input type='date' value={endDateStr} onChange={endDateHandler} min={startDateStr} max={new Date().toISOString().split('T')[0]}/>
       </p>
     </div>
   )
